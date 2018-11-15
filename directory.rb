@@ -1,16 +1,26 @@
 
 students = [
-'Mojo Jojo',
-'White Diamond',
-'Voldemort',
-'The plague',
-'Smith',
-'James Bond',
+['Mojo Jojo', :november],
+['White Diamond', :november],
+['Voldemort', :november],
+['The plague', :november],
+['Smith', :november],
+['James Bond', :november]
 ]
-puts "The students of Villains Academy"
-puts "-------------"
-students.each do |student|
-    puts student
-end 
+def print_header
+    puts "The students of Villains Academy"
+    puts "-------------"
+end
 
-puts "Overall, we have #{students.count} students enrolled. "
+def print(multi_arr)
+    multi_arr.each do |arr|
+     puts "#{arr[0]} (#{arr[1]} cohort)"
+    end
+end 
+def print_footer(array)
+    puts "Overall, we have #{array.count} students enrolled. "
+end
+
+print_header
+print(students)
+print_footer(students)
