@@ -1,10 +1,16 @@
-student_count = 6
 
-puts 'Mojo Jojo'
-puts 'White Diamond'
-puts 'Voldemort'
-puts 'The plague'
-puts 'Smith'
-puts 'James Bond'
+students = [
+'Mojo Jojo',
+'White Diamond',
+'Voldemort',
+'The plague',
+'Smith',
+'James Bond',
+]
+puts "The students of Villains Academy"
+puts "-------------"
+students.each do |student|
+    puts student
+end 
 
-puts "Overall, we have #{student_count} students enrolled. "
+puts "Overall, we have #{students.count} students enrolled. "
