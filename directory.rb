@@ -1,3 +1,5 @@
+student_count = 6
+
 puts 'Mojo Jojo'
 puts 'White Diamond'
 puts 'Voldemort'
@@ -5,6 +7,4 @@ puts 'The plague'
 puts 'Smith'
 puts 'James Bond'
 
-print 'overall, we have '
-print 6
-puts ' students enrolled.'
+puts "Overall, we have #{student_count} students enrolled. "
