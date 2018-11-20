@@ -62,7 +62,8 @@ def print(hash_array, letter)
 end 
 
 def print_footer(array)
-    puts "Overall, we have #{array.count} students enrolled. ".center(80, '-')
+    plural = if array.length == 1 then 'student' else 'students' end
+    puts "Overall, we have #{array.count} #{plural} enrolled. ".center(80, '-')
 end
 
 students = input_students
