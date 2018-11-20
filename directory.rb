@@ -3,6 +3,12 @@ def input_students
     # create an empty array
     students = []
 
+    def valid_entry(msg)
+        puts msg
+        answer = gets.chomp
+        answer =  (answer != '') ? answer : 'not supplied' 
+        answer
+    end
     while true do
         puts "Please enter the names of the students"
         puts "To finish, just hit return twice"
@@ -11,14 +17,10 @@ def input_students
             return students
             break
         end
-        puts "Please enter cohort"
-        cohort = gets.chomp
-        puts "star sign"
-        star_sign = gets.chomp
-        puts "food preference"
-        food = gets.chomp
-        puts "fears"
-        fears = gets.chomp
+        cohort = valid_entry("Please enter cohort")
+        star_sign = valid_entry('star sign')
+        food = valid_entry('food preference')
+        fears =  valid_entry('fears')
       # add the student hash to the array
       students << {name: name, cohort:cohort.to_sym, star_sign: star_sign, food: food, fears: fears}
       puts "Now we have #{students.count} students"
@@ -43,7 +45,7 @@ def print_header
 end
 
 
-def print(hash_array, letter)
+def print(hash_array, letter = false)
     counter = 0
     while counter < hash_array.length do
     #multi_arr.each_with_index do |hash, index|
@@ -66,8 +68,37 @@ def print_footer(array)
     puts "Overall, we have #{array.count} #{plural} enrolled. ".center(80, '-')
 end
 
-students = input_students
-letter = specific_letter
-print_header
-print(students, letter)
-print_footer(students)
+
+#------ interactive menu ------- #
+def interactive_menu
+    students = []
+    loop do
+      # 1. print the menu and ask the user what to do
+      puts "1. Input the students"
+      puts "2. Show the students"
+      puts "3. search for student"
+      puts "9. Exit" # 9 because we'll be adding more items
+      # 2. read the input and save it into a variable
+      selection = gets.chomp
+      # 3. do what the user has asked
+      case selection
+      when "1"
+        students = input_students
+      when "2"
+        print_header
+        print(students)
+        print_footer(students)
+    when "3"
+        print_header
+        print(students, specific_letter)
+        print_footer(students)
+      when "9"
+        exit # this will cause the program to terminate
+      else
+        puts "I don't know what you meant, try again"
+      end
+    end
+  end
+      
+
+interactive_menu
