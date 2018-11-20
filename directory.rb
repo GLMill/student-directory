@@ -1,8 +1,5 @@
 def input_students
 
-    # create an empty array
-    students = []
-
     def valid_entry(msg)
         puts msg
         answer = gets.chomp
@@ -14,7 +11,7 @@ def input_students
         puts "To finish, just hit return twice"
         name = gets.chomp
         if name.empty?
-            return students
+            return @students
             break
         end
         cohort = valid_entry("Please enter cohort")
@@ -22,12 +19,12 @@ def input_students
         food = valid_entry('food preference')
         fears =  valid_entry('fears')
       # add the student hash to the array
-      students << {name: name, cohort:cohort.to_sym, star_sign: star_sign, food: food, fears: fears}
-      puts "Now we have #{students.count} students"
+      @students << {name: name, cohort:cohort.to_sym, star_sign: star_sign, food: food, fears: fears}
+      puts "Now we have #{@students.count} students"
 
     end
     # return the array of students
-    students
+
 end
 
 def specific_letter
@@ -45,14 +42,13 @@ def print_header
 end
 
 
-def print(hash_array, letter = false)
+def print_students(letter = false)
     counter = 0
-    while counter < hash_array.length do
-    #multi_arr.each_with_index do |hash, index|
-    hash = hash_array[counter]
-    # puts hash[:name]
+    puts @students
+    while counter < @students.length do
+    hash =  @students[counter]
         if letter
-            if hash[:name][0] === letter && hash[:name].length < 12
+            if hash[:name][0] === letter && hash[:name].count < 12
                 puts "#{counter + 1}. #{hash[:name]} (#{hash[:cohort]} cohort) star sign is #{hash[:star_sign]} they like #{hash[:food]} and are scared of #{hash[:fears]}"
             end
         elsif hash[:name].length < 12
@@ -63,39 +59,77 @@ def print(hash_array, letter = false)
     end
 end 
 
-def print_footer(array)
-    plural = if array.length == 1 then 'student' else 'students' end
-    puts "Overall, we have #{array.count} #{plural} enrolled. ".center(80, '-')
+def print_footer
+    plural = if @students.length == 1 then 'student' else 'students' end
+    puts "Overall, we have #{@students.count} #{plural} enrolled. ".center(80, '-')
 end
 
 def menu_items
      # 1. print the menu and ask the user what to do
      puts "1. Input the students"
      puts "2. Show the students"
-     puts "3. search for student"
+     puts "3. Save students"
+     puts "4. load existing students"
+     puts "5. search for student"
      puts "9. Exit" # 9 because we'll be adding more items
      selection = gets.chomp
      selection
 end
 
 
-def print_student(students, search = false)
+
+      
+
+
+def print_students_list(search = false)
     print_header
-    print(students)
-    print_footer(students)
+    print_students
+    print_footer
 end
 
+#------------ saving and reading from a file -------#
+
+def load_students
+    file = File.open("students.csv", "r")
+    file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+      # this is not working when added things are added on
+      @students << {name: name, cohort: cohort.to_sym}
+    end
+    file.close
+  end
+
+def save_students
+    # open the file for writing
+    file = File.open("students.csv", "w")
+    # iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort], student[:star_sign], student[:food], student[:like]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+      puts'added to file'
+    end
+    file.close
+
+  end
+      
+#-------- global students variable --------#
+@students = []
 #------ interactive menu ------- #
 def interactive_menu
-    students = []
+
     loop do
       case menu_items
       when "1"
-        students = input_students
+        input_students
       when "2"
-        print_student(students)
-    when "3"
-        print_student(students, specific_letter)
+        print_students_list
+      when "3"
+        save_students
+      when '4'
+        load_students
+    when "5"
+        print_students_list(specific_letter)
       when "9"
         exit # this will cause the program to terminate
       else
@@ -106,3 +140,4 @@ def interactive_menu
       
 
 interactive_menu
+
