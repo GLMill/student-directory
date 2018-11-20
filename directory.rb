@@ -68,30 +68,34 @@ def print_footer(array)
     puts "Overall, we have #{array.count} #{plural} enrolled. ".center(80, '-')
 end
 
+def menu_items
+     # 1. print the menu and ask the user what to do
+     puts "1. Input the students"
+     puts "2. Show the students"
+     puts "3. search for student"
+     puts "9. Exit" # 9 because we'll be adding more items
+     selection = gets.chomp
+     selection
+end
+
+
+def print_student(students, search = false)
+    print_header
+    print(students)
+    print_footer(students)
+end
 
 #------ interactive menu ------- #
 def interactive_menu
     students = []
     loop do
-      # 1. print the menu and ask the user what to do
-      puts "1. Input the students"
-      puts "2. Show the students"
-      puts "3. search for student"
-      puts "9. Exit" # 9 because we'll be adding more items
-      # 2. read the input and save it into a variable
-      selection = gets.chomp
-      # 3. do what the user has asked
-      case selection
+      case menu_items
       when "1"
         students = input_students
       when "2"
-        print_header
-        print(students)
-        print_footer(students)
+        print_student(students)
     when "3"
-        print_header
-        print(students, specific_letter)
-        print_footer(students)
+        print_student(students, specific_letter)
       when "9"
         exit # this will cause the program to terminate
       else
