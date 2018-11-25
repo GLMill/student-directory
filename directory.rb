@@ -119,6 +119,7 @@ def save_students
         puts'added to file'
       end
     end
+    file.close
   end
    # we are making this in order to run from the terminal, it will work with the load students 
   def try_load_students
