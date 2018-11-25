@@ -45,16 +45,16 @@ end
 def print_students(letter = false)
     counter = 0
     while counter < @students.length do
-    hash =  @students[counter]
-        if letter
-            if hash[:name][0] === letter && hash[:name].count < 12
-                puts "#{counter + 1}. #{hash[:name]} (#{hash[:cohort]} cohort) star sign is #{hash[:starSign]} they like #{hash[:food]} and are scared of #{hash[:fears]}"
-            end
-        elsif hash[:name].length < 12
-            puts "#{counter + 1}. #{hash[:name]} (#{hash[:cohort]} cohort) star sign is #{hash[:starSign]} they like #{hash[:food]} and are scared of #{hash[:fears]}"
-        else
-        end   
-        counter += 1 
+      hash =  @students[counter]
+          if letter
+              if hash[:name][0] === letter && hash[:name].count < 12
+                  puts "#{counter + 1}. #{hash[:name]} (#{hash[:cohort]} cohort) star sign is #{hash[:starSign]} they like #{hash[:food]} and are scared of #{hash[:fears]}"
+              end
+          elsif hash[:name].length < 12
+              puts "#{counter + 1}. #{hash[:name]} (#{hash[:cohort]} cohort) star sign is #{hash[:starSign]} they like #{hash[:food]} and are scared of #{hash[:fears]}"
+          else
+          end   
+          counter += 1 
     end
 end 
 
@@ -78,8 +78,6 @@ end
 
 
       
-
-
 def print_students_list(search = false)
     print_header
     print_students
@@ -99,12 +97,12 @@ def get_file_name
 end
 
 def load_students(filename ="students.csv" )
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
-    name, cohort, starSign, food, fears = line.chomp.split(',')
-      @students << {name: name, cohort: cohort.to_sym, starSign: starSign, food: food, fears: fears}
+    file = File.open(filename, "r") do |f|
+      f.readlines.each do |line|
+      name, cohort, starSign, food, fears = line.chomp.split(',')
+        @students << {name: name, cohort: cohort.to_sym, starSign: starSign, food: food, fears: fears}
+      end
     end
-    file.close
   end
 
 
@@ -114,13 +112,12 @@ def save_students
       # iterate over the array of students
       @students.each do |student|
         student_data << [student[:name], student[:cohort], student[:starSign], student[:food], student[:fears]]
-        csv_line = student_data.join(",")
-        file.puts csv_line
+        f.puts student_data.join(",")
         puts'added to file'
       end
     end
-    file.close
   end
+
    # we are making this in order to run from the terminal, it will work with the load students 
   def try_load_students
     filename = ARGV.first # first argument from the command line
